@@ -1,7 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { randomInt } from 'crypto';
+import { CustomizedBadRequestException } from './exceptions/BadRequestException';
 import { MeterNotFoundException } from './exceptions/MeterNotFoundException';
+import { TokenNotFoundException } from './exceptions/TokenNotFoundException';
 import { PurchaseElectricityDto } from './meters/dto/PurchaseDto';
 import { MetersService } from './meters/meters.service';
 import { PrismaService } from './prisma.service';
@@ -51,6 +53,14 @@ export class AppService {
     }
 
     loadMeterBalance(token: number) {
-        return null;
+        let tokenDetails;
+
+        try {
+            tokenDetails = this.tokenService.findByMeterNumber(token);
+        } catch (error) {
+            throw new CustomizedBadRequestException('Invalid token');
+        }
+
+        return tokenDetails;
     }
 }
