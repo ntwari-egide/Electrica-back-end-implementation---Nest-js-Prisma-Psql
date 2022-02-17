@@ -1,0 +1,19 @@
+environment:
+  nodejs_version: "8"
+  DB_TYPE: "postgresql"
+  DB_DATABASE: "postgresql://postgres:123@localhost:5432/labusafax"
+  DB_LOGGING: false
+cache:
+  - '%LOCALAPPDATA%\Yarn -> appveyor.yml'
+  - node_modules -> yarn.lock
+  
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - yarn install
+
+build_script:
+  - npm start build
+
+test_script:
+  - npm start test
+  - npm start test:e2e

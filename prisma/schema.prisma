@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Meter {
+  id              Int @id @default(autoincrement())
+  meterNumber     Int
+  daysRemaining   Int
+  createdAt       DateTime
+  updatedAt       DateTime @updatedAt
+}
+
+model Token {
+  id             Int @id @default(autoincrement())
+  price          Float
+  loadedDays     Int
+  generatedAt    DateTime
+  meterId        Int?
+} 
