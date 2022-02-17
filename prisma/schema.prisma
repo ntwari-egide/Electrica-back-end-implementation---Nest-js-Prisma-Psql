@@ -23,6 +23,7 @@ model Token {
   id             Int @id @default(autoincrement())
   price          Float
   loadedDays     Int
+  token          Int?
   generatedAt    DateTime
   meterId        Int?
 } 

@@ -11,9 +11,7 @@ export class AppController {
     ) {}
 
     @Post('/purchase-electricity')
-    async createUser(
-        @Body() PurchaseElectricityDto,
-    ) {
-        return null;
+    async createUser(@Body() PurchaseElectricityDto) {
+        return this.appService.purchaseElectricity;
     }
 }

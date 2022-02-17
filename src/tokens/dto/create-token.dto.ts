@@ -6,6 +6,8 @@ export class CreateTokenDto {
     @ApiProperty({})
     loadedDays: number;
     @ApiProperty({})
+    token?: number;
+    @ApiProperty({})
     generatedAt: Date | string;
     @ApiProperty({})
     meterId?: number | null;

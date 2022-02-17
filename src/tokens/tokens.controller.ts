@@ -14,7 +14,6 @@ import {
 } from '@nestjs/common';
 import { TokensService } from './tokens.service';
 
-import { Prisma } from '@prisma/client';
 import { CreateTokenDto } from './dto/create-token.dto';
 
 @Controller('/api/v1/tokens')

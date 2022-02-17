@@ -40,9 +40,14 @@ export class AppService {
         tokenInput.generatedAt = new Date();
         tokenInput.meterId = purchaseDto.meterNumber;
         tokenInput.price = purchaseDto.price;
+        tokenInput.token = tokenGenerated;
         tokenInput.loadedDays = Math.ceil(purchaseDto.price / 100);
 
-        return await this.tokenService.create(tokenInput);
+        const storedToken = await this.tokenService.create(tokenInput);
+
+        meter.daysRemaining = Math.ceil(purchaseDto.price / 100);
+
+        return storedToken;
     }
 
     getUsers() {
