@@ -17,8 +17,14 @@ export class TokensService {
     }
 
     findOne(id: number) {
-        return this.prisma.meter.findUnique({
+        return this.prisma.token.findUnique({
             where: { id: id },
+        });
+    }
+
+    findByToken(id: number) {
+        return this.prisma.token.findFirst({
+            where: { token: id },
         });
     }
 

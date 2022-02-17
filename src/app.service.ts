@@ -50,7 +50,7 @@ export class AppService {
         return storedToken;
     }
 
-    getUsers() {
+    loadMeterBalance(token: number) {
         return null;
     }
 }

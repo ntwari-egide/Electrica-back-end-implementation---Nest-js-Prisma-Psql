@@ -11,7 +11,12 @@ export class AppController {
     ) {}
 
     @Post('/purchase-electricity')
-    async createUser(@Body() PurchaseElectricityDto) {
-        return this.appService.purchaseElectricity;
+    async createUser(@Body() createTokenDto: PurchaseElectricityDto) {
+        return this.appService.purchaseElectricity(createTokenDto);
+    }
+
+    @Get('/load-meter-balance/:token')
+    findOne(@Param('token') id: number) {
+        return this.appService.loadMeterBalance(id);
     }
 }
