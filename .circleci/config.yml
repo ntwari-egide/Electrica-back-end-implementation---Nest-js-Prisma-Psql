@@ -64,17 +64,12 @@ jobs:
       - restore_cache:
           key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
-          name: Test
-          command: npm run test
-      - run:
           name: Copy .env
           command: cp .env.example .env
       - run:
           name: Wait for Postgres to start
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: E2E
-          command: npm run test
+
   build:
     working_directory: ~/labusafax
     docker:
