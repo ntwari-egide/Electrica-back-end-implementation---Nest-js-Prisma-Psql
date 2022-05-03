@@ -32,43 +32,18 @@ jobs:
           key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ~/labusafax/node_modules
-  lint:
-    working_directory: ~/labusafax
-    docker:
-      - image: circleci/node:12.22-browsers
-    steps:
-      - restore_cache:
-          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
-      - run:
-          name: ESLint
-          command: npm run lint
-      # - run:
-      #     name: Prettier
-      #     command: npm run prettier:check
+  
   test:
     working_directory: ~/labusafax
     docker:
       - image: circleci/node:12.22-browsers
-      - image: circleci/postgres:12
-        environment:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 123
-          POSTGRES_DB: labusafax
     steps:
       - restore_cache:
           key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
-          name: Copy .env
-          command: cp .env.example .env
-      - run:
-          name: Wait for Postgres to start
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          npm run test
 
   build:
     working_directory: ~/labusafax
@@ -79,9 +54,9 @@ jobs:
           key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
-      - run:
-          name: Build
-          command: npm run build
+      # - run:
+      #     name: Build
+      #     command: npm run build
       - save_cache:
           key: v0-build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -95,12 +70,9 @@ workflows:
       - dependencies:
           requires:
             - checkout
-      - lint:
-          requires:
-            - dependencies
       - test:
           requires:
-            - lint
+            - checkout
       - build:
           requires:
             - test
